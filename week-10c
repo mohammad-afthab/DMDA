@@ -1,0 +1,27 @@
+Write R program to find Decision 
+Tree with the sample data and 
+visualize the regression graphically.  
+Program: 
+# Load the built-in iris dataset 
+data(iris) 
+# Install and load required libraries 
+library(C50) 
+library(caTools) 
+# Make results reproducible 
+set.seed(7) 
+# Split data into 70% training and 30% testing 
+split <- sample.split(iris$Species, SplitRatio = 0.7) 
+training <- subset(iris, split == TRUE) 
+testing <- subset(iris, split == FALSE) 
+# Build the decision tree model 
+model <- C5.0(Species ~ ., data = training) 
+# View model summary 
+summary(model) 
+# Predict on the test data 
+pred <- predict(model, testing[,-5]) 
+# Calculate accuracy 
+a <- table(testing$Species, pred) 
+accuracy <- sum(diag(a)) / sum(a) 
+print(paste("Accuracy:", round(accuracy, 3))) 
+# Visualize the decision tree 
+plot(model)
