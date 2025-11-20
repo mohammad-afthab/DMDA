@@ -1,0 +1,47 @@
+Write R program to find Non Linear 
+Least Square with the sample data and 
+visualize the regression graphically. 
+Program: 
+# Input data 
+xvalues <- c(1.6,2.1,2,2.23,3.71,3.25,3.4,3.86,1.19,2.21) 
+yvalues <- c(5.19,7.43,6.94,8.11,18.75,14.88,16.06,19.12,3.21,7.58) 
+# Plot the given data points 
+plot(xvalues, yvalues, 
+     main = "Nonlinear Least Squares (NLS) Fit", 
+     xlab = "X Values", 
+     ylab = "Y Values", 
+     col = "blue", 
+     pch = 16) 
+ 
+# Fit nonlinear model: y = b1*x^2 + b2 
+model <- nls(yvalues ~ b1*xvalues^2 + b2, 
+             start = list(b1 = 1, b2 = 3)) 
+ 
+# Create 100 evenly spaced x values for smooth curve 
+new.data <- data.frame(xvalues = seq(min(xvalues), max(xvalues), length.out = 100)) 
+ 
+# Add the fitted curve to the plot 
+lines(new.data$xvalues, predict(model, newdata = new.data), 
+      col = "red", lwd = 2) 
+ 
+# Print model diagnostics 
+cat("Sum of squared residuals:\n") 
+print(sum(resid(model)^2)) 
+ 
+cat("Confidence intervals for coefficients:\n") 
+print(confint(model)) 
+ 
+Output: 
+ >cat("Sum of squared residuals:\n") 
+Sum of squared residuals: 
+> print(sum(resid(model)^2)) 
+[1] 1.081935 
+>  
+> cat("Confidence intervals for coefficients:\n") 
+Confidence intervals for coefficients: 
+> print(confint(model)) 
+Waiting for profiling to be done... 
+       2.5%    97.5% 
+b1 1.137708 1.253135 
+b2 1.497364 2.496484 
+> 
